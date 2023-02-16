@@ -1,21 +1,48 @@
-
-
 <html>
+
+<head>
+    <style>
+        #root {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+
 <body>
-
-    <div id="root"></div> 
+    <div id="root"></div>
 </body>
-
-<script src="https://resource.zegocloud.com/prebuilt/crypto-js.js"></script>
-<script src="https://resource.zegocloud.com/prebuilt/prebuiltToken.js"></script>
-<script src="https://zegocloud.github.io/zegocloud_prebuilt_webrtc/ZegoPrebuilt/index.umd.js"></script>
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 <script>
+    // Generate a Token by calling a method.
+    // @param 1: appID
+    // @param 2: serverSecret
+    // @param 3: Room ID
+    // @param 4: User ID
+    // @param 5: Username
+    const roomID = 'room01';
+    const userID = Math.floor(Math.random() * 10000);
+    //const userName = "userName" + userID;
+    const userName = "";
+    const appID = 62549149;
+    const serverSecret = "2aa5279625f0975ded4adeaf3ad5f1a2";
+    const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
-const TOKEN = generatePrebuiltToken(62549149,"2aa5279625f0975ded4adeaf3ad5f1a2",'room2','UserID-' + Math.random(),'jack'+ Math.random());
 
-const zp = ZegoUIKitPrebuilt.create(TOKEN);
-zp.joinRoom({
-    container : document.querySelector("#root"),
-});
+
+    const zp = ZegoUIKitPrebuilt.create(TOKEN);
+    zp.joinRoom({
+        container: document.querySelector("#root"),
+        sharedLinks: [{
+            name: 'Join as Host',
+            url: window.location.origin + window.location.pathname + '?roomID=' + roomID,
+        }],
+        scenario: {
+            mode: ZegoUIKitPrebuilt.OneONoneCall, //  To implement group calls, modify the parameter here to [ZegoUIKitPrebuilt.GroupCall].
+        },
+
+    });
 </script>
+
 </html>
